@@ -1,12 +1,15 @@
 import requests, argparse, json
 
-def Main(algo, hashh, indentifie):
+def Main(algo, hashh, identifie):
     url = 'http://api.crackfoo.net'
-    key = 'API KEY HERE'
+    key = '<api key here>'
 
-    if args.indentifie:
-        req = requests.post('http://id-api.crackfoo.net/', data={'hash':args.indentifie})
-        print(req.text)
+    if args.identifie:
+        req = requests.post('http://id-api.crackfoo.net/', data={'hash':args.identifie})
+        result = req.text
+        load_json = json.loads(result)
+        formated_json = json.dumps(load_json, indent=4)
+        print(formated_json)
     elif args.hash or args.algo:
         req = requests.get(url + "?key=" + key + "&algo=" + args.algo + "&hash=" + args.hash)
         res = req.json()
@@ -39,9 +42,9 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser(prog='crackfoo.py', usage='%(prog)s [options] -hash Hash_Here -algo Algorithum_Here -identifie hash_to_identifie', description='Get password for hash and algorithum if it is in the database')
     ap.add_argument('-hash', type=str, help='Input hash')
     ap.add_argument('-algo', type=str, help='Input algo (md5, sha1, lm, ntlm, cisco7)')
-    ap.add_argument('-indentifie', type=str, help='Input hash to identifie using HashID')
+    ap.add_argument('-identifie', type=str, help='Input hash to identifie using HashID')
     args = ap.parse_args()
     algo = args.algo
     hashh = args.hash
-    indentifie = args.indentifie
-    Main(algo, hashh, indentifie)
+    identifie = args.identifie
+    Main(algo, hashh, identifie)
